@@ -3,35 +3,26 @@ import { createSlice } from "@reduxjs/toolkit";
 const categoriesSlice = createSlice({
     name: "categories",
     initialState: {
-        categories: [],
-        isLoading: false,
+        categoriesArr: [],
         fetchError: "",
         currentCategory: "",
     },
     reducers: {
-        getFetchCategories: (state) => {
-            state.isLoading = true;
+        getCategoriesSuccess: (state, action) => {
+            state.categoriesArr = action.payload;
         },
-        getSuccessCategories: (state, action) => {
-            state.categories = action.payload;
-            state.isLoading = false;
-        },
-        getFailureCategories: (state, action) => {
+        getCategoriesFailure: (state, action) => {
             state.fetchError = action.payload;
-            state.isLoading = false;
         },
         setCurrentCategory: (state, action) => {
-            state.isLoading = true;
             state.currentCategory = action.payload;
-            state.isLoading = false;
         },
     },
 });
 
 export const {
-    getFetchCategories,
-    getSuccessCategories,
-    getFailureCategories,
+    getCategoriesSuccess,
+    getCategoriesFailure,
     setCurrentCategory,
 } = categoriesSlice.actions;
 

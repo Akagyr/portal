@@ -12,10 +12,10 @@ import {
 
 const Questions = () => {
     const { currentCategory } = useSelector(state => state.categories);
-    const questions = useGetQuestions().filter(el => el.categoryId === currentCategory);
+    const questionsArr = useGetQuestions().filter(el => el.categoryId === currentCategory);
     const [filterValue, setFilterValue] = useState("");
 
-    const showQuestions = questions
+    const showQuestions = questionsArr
         .filter(question => question.text.toLowerCase().includes((filterValue).toLowerCase()))
         .map((question, index) => <Question key={index} question={question} />);
 

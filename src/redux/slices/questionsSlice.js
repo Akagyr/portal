@@ -3,19 +3,15 @@ import { createSlice } from "@reduxjs/toolkit";
 const questionsSlice = createSlice({
     name: "questions",
     initialState: {
-        questions: [],
-        isLoading: false,
+        questionsArr: [],
         fetchError: "",
     },
     reducers: {
-        getFetchQuestions: (state) => {
-            state.isLoading = true;
-        },
-        getSuccessQuestions: (state, action) => {
-            state.questions = action.payload;
+        getQuestionsSuccess: (state, action) => {
+            state.questionsArr = action.payload;
             state.isLoading = false;
         },
-        getFailureQuestions: (state, action) => {
+        getQuestionsFailure: (state, action) => {
             state.fetchError = action.payload;
             state.isLoading = false;
         },
@@ -23,9 +19,8 @@ const questionsSlice = createSlice({
 });
 
 export const {
-    getFetchQuestions,
-    getSuccessQuestions,
-    getFailureQuestions,
+    getQuestionsSuccess,
+    getQuestionsFailure,
 } = questionsSlice.actions;
 
 export default questionsSlice.reducer;

@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const SearchContainer = styled.div`
     text-align: center;
-    margin-top: 50px;
+    margin-top: 30px;
 
     @media (max-width: 576px) {
         margin-top: 30px;

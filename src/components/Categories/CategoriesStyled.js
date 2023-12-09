@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 const CategoriesContainer = styled.div`
-    padding-top: 20px;
     display: grid;
     grid-template-columns: repeat(auto-fill, 200px);
     justify-content: space-around;

@@ -1,18 +1,25 @@
 import React, { useRef } from "react";
+import { useDispatch } from "react-redux";
+
+import { addNewCategory } from "../../redux/actions/categories/categoriesAction";
+
+import {
+    Input,
+    Button,
+} from "../commonStyled";
 
 const AddNewCategory = () => {
     const categoryRef = useRef(null);
-    
+    const dispatch = useDispatch();
+
     const handleSubmit = () => {
-        console.log(categoryRef.current.value);
+        categoryRef.current.value !== "" ? dispatch(addNewCategory(categoryRef.current.value)) : alert("Введіть категорію!");
     };
 
     return (
         <>
-            <div>
-            <input ref={categoryRef} type="text" />
-            </div>
-            <button onClick={() => handleSubmit()}>Add</button>
+            <Input ref={categoryRef} type="text" placeholder="Назва категорії" />
+            <Button onClick={() => handleSubmit()}>Додати категорію</Button>
         </>
     );
 };

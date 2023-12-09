@@ -8,9 +8,9 @@ import {
 } from "./CategoriesStyled";
 
 const Categories = () => {
-    const categories = useGetCategories();
+    const categoriesArr = useGetCategories();
 
-    const showCategories = categories.map((category, index) => <Category key={index} category={category} />);
+    const showCategories = categoriesArr.map((category, index) => <Category key={index} category={category} />);
 
     return (
         <CategoriesContainer>

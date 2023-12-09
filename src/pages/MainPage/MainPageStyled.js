@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-const MainLayoutContainer = styled.div`
-    padding: 0 8%;
+const MainLayoutContainer = styled.main`
+    padding: 20px 8% 0;
     
     @media (max-width: 576px) {
-        padding: 0 2%;
+        padding: 20px 4% 0;
     }
 `;
 

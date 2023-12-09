@@ -3,24 +3,29 @@ import React, { useState } from "react";
 import AddNewCategory from "../AddNewCategory/AddNewCategory";
 import AddNewQuestion from "../AddNewQuestion/AddNewQuestion";
 
+import { Select } from "../commonStyled";
+
 import {
-    SelectAddNewElement,
+    AddNewElementContainer,
+    AddNewElementSwitchContainer,
 } from "./AddNewElementStyled";
 
 const AddNewElement = () => {
     const [addType, setAddType] = useState("question");
 
     return (
-        <>
-            <SelectAddNewElement onChange={e => setAddType(e.target.value)}>
-                <option value="question">Question</option>
-                <option value="category">Category</option>
-            </SelectAddNewElement>
-            {addType === "question"
-                ? <AddNewQuestion />
-                : <AddNewCategory />
-            }
-        </>
+        <AddNewElementContainer>
+            <Select onChange={e => setAddType(e.target.value)}>
+                <option value="question">Додати питання</option>
+                <option value="category">Додати категорію</option>
+            </Select>
+            <AddNewElementSwitchContainer>
+                {addType === "question"
+                    ? <AddNewQuestion />
+                    : <AddNewCategory />
+                }
+            </AddNewElementSwitchContainer>
+        </AddNewElementContainer>
     );
 };
 

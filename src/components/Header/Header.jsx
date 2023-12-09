@@ -14,7 +14,7 @@ const Header = () => {
                 <Link to="/">Portal</Link>
             </HeaderLogo>
             <HeaderAddQuestionBtn>
-                <Link to="/addNewElement">Додати питання</Link>
+                <Link to="/addNewElement">Додати питання/категорію</Link>
             </HeaderAddQuestionBtn>
         </HeaderContainer>
     );
