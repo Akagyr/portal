@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 
 import { addNewCategory } from "../../redux/actions/categories/categoriesAction";
+import useGetCategories from "../../hooks/useGetCategories";
 
 import {
     Input,
@@ -9,18 +10,27 @@ import {
 } from "../commonStyled";
 
 const AddNewCategory = () => {
-    const categoryRef = useRef(null);
     const dispatch = useDispatch();
+    const categoriesArr = useGetCategories();
 
-    const handleSubmit = () => {
-        categoryRef.current.value !== "" ? dispatch(addNewCategory(categoryRef.current.value)) : alert("Введіть категорію!");
+    const onSubmit = (event) => {
+        const isCreatedCategory = categoriesArr.find(item => item.name === event.target.categoryName.value);
+        if (isCreatedCategory) {
+            alert("Така категрія вже існує");
+        } else {
+            event.preventDefault();
+            dispatch(addNewCategory({
+                name: event.target.categoryName.value,
+            }));
+        }
+        document.getElementById("form").reset();
     };
 
     return (
-        <>
-            <Input ref={categoryRef} type="text" placeholder="Назва категорії" />
-            <Button onClick={() => handleSubmit()}>Додати категорію</Button>
-        </>
+        <form id="form" onSubmit={onSubmit}>
+            <Input name="categoryName" type="text" placeholder="Назва категорії" required />
+            <Button type="submit">Додати категорію</Button>
+        </form>
     );
 };
 

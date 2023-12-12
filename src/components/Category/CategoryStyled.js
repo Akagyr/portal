@@ -3,6 +3,7 @@ import styled from "styled-components";
 const CategoryContainer = styled.div`
     width: 200px;
     height: 250px;
+    padding: 15px;
     background-color: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(7px);
     box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);

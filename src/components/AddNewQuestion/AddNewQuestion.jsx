@@ -1,8 +1,9 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 
 import { addNewQuestion } from "../../redux/actions/questions/questionsAction";
 import useGetCategories from "../../hooks/useGetCategories";
+import useGetQuestions from "../../hooks/useGetQuestions";
 import {
     Input,
     Button,
@@ -11,37 +12,56 @@ import {
 
 const AddNewQuestion = () => {
     const categories = useGetCategories();
-    const [categoryOption, setCategoryOption] = useState("");
-    const questionTextRef = useRef(null);
-    const questionAnswerRef = useRef(null);
+    const questionsArr = useGetQuestions();
     const dispatch = useDispatch();
 
-    const handleSubmit = () => {
-        if (categoryOption !== "default" && questionTextRef.current.value !== "" && questionAnswerRef.current.value !== "") {
-            dispatch(addNewQuestion({
-                categoryId: categoryOption,
-                text: questionTextRef.current.value,
-                answer: questionAnswerRef.current.value,
-            }));
+    const findCreatedQuestion = (event) => {
+        let find = false;
+        
+        questionsArr.forEach(element => {
+            const isCreatedCategory = element.categoryId === event.target.categoryId.value;
+            const isCreatedQuestionText = element.text === event.target.questionText.value;
+            const isCreatedQuestionAnswer = element.answer === event.target.questionAnswer.value;
+
+            if (isCreatedCategory) {
+                if (isCreatedQuestionText) {
+                    if (isCreatedQuestionAnswer) {
+                        return find = true;
+                    }
+                }
+            }
+        });
+
+        return find;
+    };
+
+    const onSubmit = (event) => {
+        const isCreatedQuestion = findCreatedQuestion(event);
+        if (isCreatedQuestion) {
+            alert("Таке питання вже існує");
         } else {
-            categoryOption === "default" && alert("Категорія не була обрана!");
-            questionTextRef.current.value === "" && alert("Відсутнє питання!");
-            questionAnswerRef.current.value === "" && alert("Відсутня відповідь на питання!");
+            event.preventDefault();
+            dispatch(addNewQuestion({
+                categoryId: event.target.categoryId.value,
+                text: event.target.questionText.value,
+                answer: event.target.questionAnswer.value,
+            }));
         }
+        document.getElementById("form").reset();
     };
 
     const showCategoriesOptions = categories.map((category, index) => <option key={index} value={category.id}>{category.name}</option>);
 
     return (
-        <>
-            <Select onChange={e => setCategoryOption(e.target.value)}>
-                <option value="default">Оберіть категорію</option>
+        <form id="form" onSubmit={onSubmit}>
+            <Select name="categoryId" required>
+                <option value="">Оберіть категорію</option>
                 {showCategoriesOptions}
             </Select>
-            <Input ref={questionTextRef} type="text" placeholder="Текст питання" />
-            <Input ref={questionAnswerRef} type="text" placeholder="Правильна відповідь" />
-            <Button onClick={() => handleSubmit()}>Додати питання</Button>
-        </>
+            <Input name="questionText" type="text" placeholder="Текст питання" required />
+            <Input name="questionAnswer" type="text" placeholder="Правильна відповідь" required />
+            <Button type="submit">Додати питання</Button>
+        </form>
     );
 };
 

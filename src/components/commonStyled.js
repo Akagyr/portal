@@ -30,6 +30,7 @@ const Button = styled.button`
     border-radius: 10px;
     padding: 15px 25px;
     font-weight: bolder;
+    cursor: pointer;
 
     &:hover {
         background-color: #8e2de2;
@@ -40,6 +41,7 @@ const Select = styled.select`
     padding: 10px 15px;
     border-radius: 10px;
     width: 100%;
+    cursor: pointer;
 `;
 
 export {
