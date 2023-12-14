@@ -3,7 +3,7 @@ import { setDoc, doc } from "firebase/firestore";
 
 import { db } from "../../firebase";
 import { questionsActionTypes } from "../actions/questions/questionsActionTypes";
-import { getQuestionsFailure } from "../slices/questionsSlice";
+import { setMessageData } from "../slices/messageSlice";
 
 function* addNewQuestionToFirestore(action) {
     try {
@@ -13,7 +13,10 @@ function* addNewQuestionToFirestore(action) {
             categoryId: action.payload.categoryId,
         });
     } catch (error) {
-        yield put(getQuestionsFailure(error.message));
+        yield put(setMessageData({
+            type: "error",
+            text: error.message,
+        }));
     }
 }
 

@@ -3,7 +3,7 @@ import { setDoc, doc } from "firebase/firestore";
 
 import { db } from "../../firebase";
 import { categoriesActionTypes } from "../actions/categories/categoriesActionTypes";
-import { getCategoriesFailure } from "../slices/categoriesSlice";
+import { setMessageData } from "../slices/messageSlice";
 
 function* addNewCategoryToFirestore(action) {
     try {
@@ -11,7 +11,10 @@ function* addNewCategoryToFirestore(action) {
             name: action.payload,
         });
     } catch (error) {
-        yield put(getCategoriesFailure(error.message));
+        yield put(setMessageData({
+            type: "error",
+            text: error.message,
+        }));
     }
 }
 

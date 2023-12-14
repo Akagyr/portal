@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const CategoryContainer = styled.div`
-    width: 200px;
+    width: 100%;
     height: 250px;
     padding: 15px;
     background-color: rgba(255, 255, 255, 0.5);

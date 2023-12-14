@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { addNewQuestion } from "../../redux/actions/questions/questionsAction";
 import useGetCategories from "../../hooks/useGetCategories";
 import useGetQuestions from "../../hooks/useGetQuestions";
+import { setMessageData } from "../../redux/slices/messageSlice";
 import {
     Input,
     Button,
@@ -38,13 +39,20 @@ const AddNewQuestion = () => {
     const onSubmit = (event) => {
         const isCreatedQuestion = findCreatedQuestion(event);
         if (isCreatedQuestion) {
-            alert("Таке питання вже існує");
+            dispatch(setMessageData({
+                type: "error",
+                text: "Таке питання вже існує",
+            }));
         } else {
             event.preventDefault();
             dispatch(addNewQuestion({
                 categoryId: event.target.categoryId.value,
                 text: event.target.questionText.value,
                 answer: event.target.questionAnswer.value,
+            }));
+            dispatch(setMessageData({
+                type: "success",
+                text: "Питання створене!",
             }));
         }
         document.getElementById("form").reset();

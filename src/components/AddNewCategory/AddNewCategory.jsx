@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { addNewCategory } from "../../redux/actions/categories/categoriesAction";
 import useGetCategories from "../../hooks/useGetCategories";
-
+import { setMessageData } from "../../redux/slices/messageSlice";
 import {
     Input,
     Button,
@@ -16,11 +16,18 @@ const AddNewCategory = () => {
     const onSubmit = (event) => {
         const isCreatedCategory = categoriesArr.find(item => item.name === event.target.categoryName.value);
         if (isCreatedCategory) {
-            alert("Така категрія вже існує");
+            dispatch(setMessageData({
+                type: "error",
+                text: "Така категрія вже існує",
+            }));
         } else {
             event.preventDefault();
             dispatch(addNewCategory({
                 name: event.target.categoryName.value,
+            }));
+            dispatch(setMessageData({
+                type: "success",
+                text: "Категорія створена!",
             }));
         }
         document.getElementById("form").reset();
