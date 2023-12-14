@@ -9,6 +9,7 @@ import {
 } from "./CategoryStyled";
 
 const Category = ({ category }) => {
+    debugger;
     const navigate = useNavigate();
     const dispatch = useDispatch();
 

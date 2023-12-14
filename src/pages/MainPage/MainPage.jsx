@@ -16,7 +16,7 @@ const MainLayout = () => {
 
     return (
         <MainLayoutContainer>
-            <Message type={type} text={text} />
+            {<Message type={type} text={text} />}
             <Routes>
                 <Route path="/" element={<Categories />} />
                 <Route path="/questions" element={<Questions />} />

@@ -18,7 +18,6 @@ const categoriesSlice = createSlice({
 
 export const {
     getCategoriesSuccess,
-    getCategoriesFailure,
     setCurrentCategory,
 } = categoriesSlice.actions;
 

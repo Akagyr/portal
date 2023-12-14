@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { collection, onSnapshot } from "firebase/firestore";
 
-import { getCategoriesSuccess, getCategoriesFailure } from "../redux/slices/categoriesSlice";
+import { getCategoriesSuccess } from "../redux/slices/categoriesSlice";
+import { setMessageData } from "../redux/slices/messageSlice";
 import { db } from "../firebase";
 
 const useGetCategories = () => {
@@ -22,7 +23,7 @@ const useGetCategories = () => {
             });
             return () => unsubscribe();
         } catch (error) {
-            dispatch(getCategoriesFailure(error));
+            dispatch(setMessageData(error.message));
         }
     }, []);
 

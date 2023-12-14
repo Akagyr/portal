@@ -7,7 +7,7 @@ import {
     MessageSuccess,
 } from "./MessageStyled";
 
-const Message = ({ type, text }) => {
+const Message = (type, text) => {
     return (
         <>
             {type && text

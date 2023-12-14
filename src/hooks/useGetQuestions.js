@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { collection, onSnapshot } from "firebase/firestore";
 
-import { getQuestionsSuccess, getQuestionsFailure } from "../redux/slices/questionsSlice";
+import { getQuestionsSuccess } from "../redux/slices/questionsSlice";
+import { setMessageData } from "../redux/slices/messageSlice";
 import { db } from "../firebase";
 
 const useGetQuestions = () => {
@@ -22,7 +23,7 @@ const useGetQuestions = () => {
             });
             return () => unsubscribe();
         } catch (error) {
-            dispatch(getQuestionsFailure(error));
+            dispatch(setMessageData(error.message));
         }
     }, []);
 

@@ -9,15 +9,12 @@ import {
 
 const Categories = () => {
     const categoriesArr = useGetCategories();
-
     const showCategories = categoriesArr.map((category, index) => <Category key={index} category={category} />);
 
     return (
         <CategoriesContainer>
             {showCategories}
         </CategoriesContainer>
-
-        
     );
 };
 

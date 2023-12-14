@@ -15,7 +15,6 @@ const questionsSlice = createSlice({
 
 export const {
     getQuestionsSuccess,
-    getQuestionsFailure,
 } = questionsSlice.actions;
 
 export default questionsSlice.reducer;
