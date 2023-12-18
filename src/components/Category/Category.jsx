@@ -5,11 +5,10 @@ import { useDispatch } from "react-redux";
 import { setCurrentCategory } from "../../redux/slices/categoriesSlice";
 
 import {
-    CategoryContainer
+    CategoryContainer,
 } from "./CategoryStyled";
 
 const Category = ({ category }) => {
-    debugger;
     const navigate = useNavigate();
     const dispatch = useDispatch();
 

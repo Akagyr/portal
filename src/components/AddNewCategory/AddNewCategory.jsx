@@ -14,6 +14,7 @@ const AddNewCategory = () => {
     const categoriesArr = useGetCategories();
 
     const onSubmit = (event) => {
+        event.preventDefault();
         const isCreatedCategory = categoriesArr.find(item => item.name === event.target.categoryName.value);
         if (isCreatedCategory) {
             dispatch(setMessageData({
@@ -21,7 +22,6 @@ const AddNewCategory = () => {
                 text: "Така категрія вже існує",
             }));
         } else {
-            event.preventDefault();
             dispatch(addNewCategory({
                 name: event.target.categoryName.value,
             }));

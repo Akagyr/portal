@@ -37,6 +37,7 @@ const AddNewQuestion = () => {
     };
 
     const onSubmit = (event) => {
+        event.preventDefault();
         const isCreatedQuestion = findCreatedQuestion(event);
         if (isCreatedQuestion) {
             dispatch(setMessageData({
@@ -44,7 +45,6 @@ const AddNewQuestion = () => {
                 text: "Таке питання вже існує",
             }));
         } else {
-            event.preventDefault();
             dispatch(addNewQuestion({
                 categoryId: event.target.categoryId.value,
                 text: event.target.questionText.value,
