@@ -5,6 +5,7 @@ import { addNewQuestion } from "../../redux/actions/questions/questionsAction";
 import useGetCategories from "../../hooks/useGetCategories";
 import useGetQuestions from "../../hooks/useGetQuestions";
 import { setMessageData } from "../../redux/slices/messageSlice";
+import { findCreatedQuestion } from "../../helpers/findCreatedItemsHelper";
 import {
     Input,
     Button,
@@ -16,28 +17,9 @@ const AddNewQuestion = () => {
     const questionsArr = useGetQuestions();
     const dispatch = useDispatch();
 
-    const findCreatedQuestion = (event) => {
-        let find = false;
-        
-        questionsArr.forEach(element => {
-            const isCreatedCategory = element.categoryId === event.target.categoryId.value;
-            const isCreatedQuestionText = element.text === event.target.questionText.value;
-            const isCreatedQuestionAnswer = element.answer === event.target.questionAnswer.value;
-
-            if (isCreatedCategory) {
-                if (isCreatedQuestionText) {
-                    if (isCreatedQuestionAnswer) {
-                        return find = true;
-                    }
-                }
-            }
-        });
-        return find;
-    };
-
     const onSubmit = (event) => {
         event.preventDefault();
-        const isCreatedQuestion = findCreatedQuestion(event);
+        const isCreatedQuestion = findCreatedQuestion(event, questionsArr);
         if (isCreatedQuestion) {
             dispatch(setMessageData({
                 type: "error",

@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 const AdminPageContainer = styled.div`
-    margin: 50px auto 0;
+    margin: 0 auto;
+    padding-top: 50px;
     width: 500px;
     text-align: center;
 

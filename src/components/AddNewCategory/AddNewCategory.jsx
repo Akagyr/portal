@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { addNewCategory } from "../../redux/actions/categories/categoriesAction";
 import useGetCategories from "../../hooks/useGetCategories";
 import { setMessageData } from "../../redux/slices/messageSlice";
+import { findCreatedCategory } from "../../helpers/findCreatedItemsHelper";
 import {
     Input,
     Button,
@@ -15,7 +16,7 @@ const AddNewCategory = () => {
 
     const onSubmit = (event) => {
         event.preventDefault();
-        const isCreatedCategory = categoriesArr.find(item => item.name === event.target.categoryName.value);
+        const isCreatedCategory = findCreatedCategory(event, categoriesArr);
         if (isCreatedCategory) {
             dispatch(setMessageData({
                 type: "error",
