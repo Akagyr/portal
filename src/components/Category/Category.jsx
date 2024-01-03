@@ -14,7 +14,8 @@ const Category = ({ category }) => {
 
     const selectCategory = (categoryId) => {
         dispatch(setCurrentCategory(categoryId));
-        navigate("/questions");
+        sessionStorage.setItem("currentCategory", categoryId);
+        navigate(`/${category.id}/questions`);
     };
 
     return (

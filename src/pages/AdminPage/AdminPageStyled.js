@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-const AddNewElementContainer = styled.div`
-    margin: 30px auto 0;
+const AdminPageContainer = styled.div`
+    margin: 50px auto 0;
     width: 500px;
     text-align: center;
 
@@ -11,7 +11,7 @@ const AddNewElementContainer = styled.div`
     }
 `;
 
-const AddNewElementSwitchContainer = styled.div`
+const SelectedItemContainer = styled.div`
     margin-top: 50px;
 
     @media (max-width: 576px) {
@@ -20,6 +20,6 @@ const AddNewElementSwitchContainer = styled.div`
 `;
 
 export {
-    AddNewElementContainer,
-    AddNewElementSwitchContainer,
+    AdminPageContainer,
+    SelectedItemContainer,
 };

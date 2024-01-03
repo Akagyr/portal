@@ -1,19 +1,16 @@
 import styled from "styled-components";
 
 const MessageContainer = styled.div`
-    min-width: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border-radius: 10px;
     background-color: #fff;
-    padding: 5px 10px;
+    padding: 10px 25px;
     position: absolute;
     z-index: 100;
-    top: 3%;
+    margin-top: 10px;
     left: 50%;
-    transform: translateX(-50%);
-    box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
+    transform: translate(-50%);
+    font-weight: 600;
+    box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.35);
 `;
 
 const MessageInfo = styled.p`

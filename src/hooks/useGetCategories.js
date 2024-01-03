@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { collection, onSnapshot } from "firebase/firestore";
 
-import { getCategoriesSuccess } from "../redux/slices/categoriesSlice";
+import { getCategoriesFetch, getCategoriesSuccess } from "../redux/slices/categoriesSlice";
 import { setMessageData } from "../redux/slices/messageSlice";
 import { db } from "../firebase";
 
@@ -12,6 +12,7 @@ const useGetCategories = () => {
 
     useEffect(() => {
         try {
+            dispatch(getCategoriesFetch());
             const queryCollection = collection(db, "categories");
             const unsubscribe = onSnapshot(queryCollection, (snapshot) => {
                 let tempArr = [];

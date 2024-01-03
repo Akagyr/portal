@@ -4,8 +4,12 @@ const questionsSlice = createSlice({
     name: "questions",
     initialState: {
         questionsArr: [],
+        isLoading: false,
     },
     reducers: {
+        getQuestionsFetch: (state) => {
+            state.isLoading = true;
+        },
         getQuestionsSuccess: (state, action) => {
             state.questionsArr = action.payload;
             state.isLoading = false;
@@ -14,6 +18,7 @@ const questionsSlice = createSlice({
 });
 
 export const {
+    getQuestionsFetch,
     getQuestionsSuccess,
 } = questionsSlice.actions;
 

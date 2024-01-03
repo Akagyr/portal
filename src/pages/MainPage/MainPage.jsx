@@ -1,26 +1,14 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
-import Categories from "../../components/Categories/Categories";
-import Questions from "../../components/Questions/Questions";
-import AddNewElement from "../../components/AddNewElement/AddNewElement";
-import Message from "../../components/Message/Message";
+import { MainPageContainer } from "./MainPageStyled";
 
-import {
-    MainLayoutContainer,
-} from "./MainPageStyled";
-
-const MainLayout = () => {
+const MainPage = () => {
     return (
-        <MainLayoutContainer>
-            <Message />
-            <Routes>
-                <Route path="/" element={<Categories />} />
-                <Route path="/questions" element={<Questions />} />
-                <Route path="/addNewElement" element={<AddNewElement />} />
-            </Routes>
-        </MainLayoutContainer>
+        <MainPageContainer>
+            <Outlet />
+        </MainPageContainer>
     );
 };
 
-export default MainLayout;
+export default MainPage;

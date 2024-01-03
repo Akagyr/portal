@@ -5,10 +5,15 @@ const categoriesSlice = createSlice({
     initialState: {
         categoriesArr: [],
         currentCategory: "",
+        isLoading: false,
     },
     reducers: {
+        getCategoriesFetch: (state) => {
+            state.isLoading = true;
+        },
         getCategoriesSuccess: (state, action) => {
             state.categoriesArr = action.payload;
+            state.isLoading = false;
         },
         setCurrentCategory: (state, action) => {
             state.currentCategory = action.payload;
@@ -17,6 +22,7 @@ const categoriesSlice = createSlice({
 });
 
 export const {
+    getCategoriesFetch,
     getCategoriesSuccess,
     setCurrentCategory,
 } = categoriesSlice.actions;

@@ -12,7 +12,7 @@ import {
 } from "../commonStyled";
 
 const AddNewQuestion = () => {
-    const categories = useGetCategories();
+    const categoriesArr = useGetCategories();
     const questionsArr = useGetQuestions();
     const dispatch = useDispatch();
 
@@ -32,7 +32,6 @@ const AddNewQuestion = () => {
                 }
             }
         });
-
         return find;
     };
 
@@ -58,7 +57,7 @@ const AddNewQuestion = () => {
         document.getElementById("form").reset();
     };
 
-    const showCategoriesOptions = categories.map((category, index) => <option key={index} value={category.id}>{category.name}</option>);
+    const showCategoriesOptions = categoriesArr.map((category, index) => <option key={index} value={category.id}>{category.name}</option>);
 
     return (
         <form id="form" onSubmit={onSubmit}>

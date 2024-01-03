@@ -21,6 +21,13 @@ const CategoryContainer = styled.div`
         transform: translateY(-0.4rem);
     }
 
+    @media (max-width: 576px) and (hover: hover) {
+        &:hover {
+            transform: none;
+            background-color: rgb(55, 60, 64);
+        }
+    }
+
     @media (max-width: 576px) {
         width: 100%;
         height: 100%;

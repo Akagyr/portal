@@ -23,8 +23,8 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-    margin-top: 25px;
     border: none;
+    outline: none;
     background-color: #000;
     color: #fff;
     border-radius: 10px;
@@ -34,6 +34,10 @@ const Button = styled.button`
 
     &:hover {
         background-color: #8e2de2;
+    }
+
+    input ~ & {
+        margin-top: 25px;
     }
 `;
 

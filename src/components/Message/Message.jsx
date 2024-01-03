@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { clearMessageData } from "../../redux/slices/messageSlice";
@@ -18,7 +18,7 @@ const Message = () => {
         if (isShow) { 
             const showMessagetime = setTimeout(() => {
                 dispatch(clearMessageData());
-            }, 4000);
+            }, 2000);
             return () => clearTimeout(showMessagetime);
         }
     }, [isShow]);

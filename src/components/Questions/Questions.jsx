@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import useGetQuestions from "../../hooks/useGetQuestions";
 import Question from "../Question/Question";
+import { setCurrentCategory } from "../../redux/slices/categoriesSlice";
 
 import {
     SearchContainer,
@@ -14,6 +15,11 @@ const Questions = () => {
     const { currentCategory } = useSelector(state => state.categories);
     const questionsArr = useGetQuestions().filter(el => el.categoryId === currentCategory);
     const [filterValue, setFilterValue] = useState("");
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(setCurrentCategory(sessionStorage.getItem("currentCategory")));
+    }, []);
 
     const showQuestions = questionsArr
         .filter(question => question.text.toLowerCase().includes((filterValue).toLowerCase()))
