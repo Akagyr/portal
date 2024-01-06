@@ -18,7 +18,9 @@ const Questions = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(setCurrentCategory(sessionStorage.getItem("currentCategory")));
+        if (!currentCategory) {
+            dispatch(setCurrentCategory(sessionStorage.getItem("currentCategory")));
+        }
     }, []);
 
     const showQuestions = questionsArr
