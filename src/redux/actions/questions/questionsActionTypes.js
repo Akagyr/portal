@@ -1,3 +1,5 @@
 export const questionsActionTypes = {
     ADD_NEW_QUESTION: "ADD_NEW_QUESTION",
+    UPDATE_QUESTION: "UPDATE_QUESTION",
+    DELETE_QUESTION: "DELETE_QUESTION",
 };

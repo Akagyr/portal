@@ -6,3 +6,17 @@ export const addNewQuestion = (newQuestion) => {
         payload: newQuestion,
     };
 };
+
+export const updateQuestion = (question) => {
+    return {
+        type: questionsActionTypes.UPDATE_QUESTION,
+        payload: question,
+    };
+};
+
+export const deleteQuestion = (questionId) => {
+    return {
+        type: questionsActionTypes.DELETE_QUESTION,
+        payload: questionId,
+    };
+};

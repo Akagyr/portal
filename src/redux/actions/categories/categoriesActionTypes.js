@@ -1,3 +1,5 @@
 export const categoriesActionTypes = {
     ADD_NEW_CATEGORY: "ADD_NEW_CATEGORY",
+    UPDATE_CATEGORY: "UPDATE_CATEGORY",
+    DELETE_CATEGORY: "DELETE_CATEGORY",
 };

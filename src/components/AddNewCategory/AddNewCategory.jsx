@@ -1,8 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 
-import { addNewCategory } from "../../redux/actions/categories/categoriesAction";
-import useGetCategories from "../../hooks/useGetCategories";
+import { addNewCategory, deleteCategory } from "../../redux/actions/categories/categoriesAction";
 import { setMessageData } from "../../redux/slices/messageSlice";
 import { findCreatedCategory } from "../../helpers/findCreatedItemsHelper";
 import {
@@ -10,9 +9,17 @@ import {
     Button,
 } from "../commonStyled";
 
-const AddNewCategory = () => {
+import {
+    CategoriesListContainer,
+    CategoriesListItemContainer,
+    ItemContent,
+    ButtonGroup,
+    UpdateButton,
+    DeleteButton,
+} from "./AddNewCategoryStyled";
+
+const AddNewCategory = ({ categoriesArr }) => {
     const dispatch = useDispatch();
-    const categoriesArr = useGetCategories();
 
     const onSubmit = (event) => {
         event.preventDefault();
@@ -23,9 +30,7 @@ const AddNewCategory = () => {
                 text: "Така категрія вже існує",
             }));
         } else {
-            dispatch(addNewCategory({
-                name: event.target.categoryName.value,
-            }));
+            dispatch(addNewCategory(event.target.categoryName.value));
             dispatch(setMessageData({
                 type: "success",
                 text: "Категорія створена!",
@@ -35,10 +40,24 @@ const AddNewCategory = () => {
     };
 
     return (
-        <form id="form" onSubmit={onSubmit}>
-            <Input name="categoryName" type="text" placeholder="Назва категорії" required />
-            <Button type="submit">Додати категорію</Button>
-        </form>
+        <>
+            <form id="form" onSubmit={onSubmit}>
+                <Input name="categoryName" type="text" placeholder="Назва категорії" required />
+                <Button type="submit">Додати категорію</Button>
+            </form>
+            <CategoriesListContainer>
+                {categoriesArr.map((el, index) =>
+                    <CategoriesListItemContainer key={el.id}>
+                        <p>{index + 1}.</p>
+                        <ItemContent>{el.name}</ItemContent>
+                        <ButtonGroup>
+                            <UpdateButton>Змінити</UpdateButton>
+                            <DeleteButton onClick={() => dispatch(deleteCategory(el.id))}>Видалити</DeleteButton>
+                        </ButtonGroup>
+                    </CategoriesListItemContainer>
+                )}
+            </CategoriesListContainer>
+        </>
     );
 };
 

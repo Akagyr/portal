@@ -1,9 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { addNewQuestion } from "../../redux/actions/questions/questionsAction";
-import useGetCategories from "../../hooks/useGetCategories";
-import useGetQuestions from "../../hooks/useGetQuestions";
+import { addNewQuestion, deleteQuestion } from "../../redux/actions/questions/questionsAction";
 import { setMessageData } from "../../redux/slices/messageSlice";
 import { findCreatedQuestion } from "../../helpers/findCreatedItemsHelper";
 import {
@@ -12,9 +10,19 @@ import {
     Select,
 } from "../commonStyled";
 
-const AddNewQuestion = () => {
-    const categoriesArr = useGetCategories();
-    const questionsArr = useGetQuestions();
+import {
+    QuestionsListContainer,
+    QuestionsListItemContainer,
+    ItemContent,
+    ItemText,
+    ItemAnswer,
+    ButtonGroup,
+    UpdateButton,
+    DeleteButton,
+} from "./AddNewQuestionStyled";
+
+const AddNewQuestion = ({ categoriesArr, questionsArr }) => {
+    const [categoryId, setCategoryId] = useState(null);
     const dispatch = useDispatch();
 
     const onSubmit = (event) => {
@@ -42,15 +50,32 @@ const AddNewQuestion = () => {
     const showCategoriesOptions = categoriesArr.map((category, index) => <option key={index} value={category.id}>{category.name}</option>);
 
     return (
-        <form id="form" onSubmit={onSubmit}>
-            <Select name="categoryId" required>
-                <option value="">Оберіть категорію</option>
-                {showCategoriesOptions}
-            </Select>
-            <Input name="questionText" type="text" placeholder="Текст питання" required />
-            <Input name="questionAnswer" type="text" placeholder="Правильна відповідь" required />
-            <Button type="submit">Додати питання</Button>
-        </form>
+        <>
+            <form id="form" onSubmit={onSubmit}>
+                <Select name="categoryId" onChange={(e) => setCategoryId(e.target.value)} required>
+                    <option value="">Оберіть категорію</option>
+                    {showCategoriesOptions}
+                </Select>
+                <Input name="questionText" type="text" placeholder="Текст питання" required />
+                <Input name="questionAnswer" type="text" placeholder="Правильна відповідь" required />
+                <Button type="submit">Додати питання</Button>
+            </form>
+            <QuestionsListContainer>
+                {questionsArr.filter(el => el.categoryId === categoryId).map((el, index) =>
+                    <QuestionsListItemContainer key={el.id}>
+                        <p>{index + 1}.</p>
+                        <ItemContent>
+                            <ItemText>{el.text}</ItemText>
+                            <ItemAnswer>{el.answer}</ItemAnswer>
+                        </ItemContent>
+                        <ButtonGroup>
+                            <UpdateButton>Змінити</UpdateButton>
+                            <DeleteButton onClick={() => dispatch(deleteQuestion(el.id))}>Видалити</DeleteButton>
+                        </ButtonGroup>
+                    </QuestionsListItemContainer>
+                )}
+            </QuestionsListContainer>
+        </>
     );
 };
 
