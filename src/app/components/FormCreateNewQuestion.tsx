@@ -127,7 +127,7 @@ export default function FormCreateNewQuestion({ questions }: { questions: Questi
         correctAnswer: {
           ...prevState.correctAnswer,
           error:
-            correctAnswer.text.trim() === ''
+            correctAnswer.text.trim() === 'no-select'
               ? 'Не вибраний номер правильної відповіді'
               : correctAnswer.error,
         },
