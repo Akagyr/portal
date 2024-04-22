@@ -42,7 +42,7 @@ export default function CustomInput({
           type={type || 'text'}
           className={`${
             containerStyles ? containerStyles : ''
-          } outline-none w-full border-2 rounded-full py-[5px] px-[15px] text-sm ${
+          } outline-none w-full border-2 rounded-full py-[10px] px-[15px] text-sm ${
             error ? 'border-2 border-red-600' : 'border border-gray-500'
           }`}
           placeholder={placeholder}

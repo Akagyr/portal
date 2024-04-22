@@ -1,5 +1,6 @@
 export type Question = {
+  id: string;
   text: string;
-  answers: Array<string>;
+  answers: string[];
   correctAnswer: string;
 };

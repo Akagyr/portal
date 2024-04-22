@@ -1,13 +1,13 @@
 'use client';
 
 import { ChangeEvent, useState } from 'react';
-import { Modal } from 'react-responsive-modal';
-import 'react-responsive-modal/styles.css';
 import CustomInput from './CustomInput';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import { Question } from '../lib/types';
+import CustomAlert from './CustomAlert';
 
-type Question = {
+type QuestionForm = {
   question: {
     text: string;
     error: string | null;
@@ -56,29 +56,27 @@ const initialState = {
     error: null,
   },
   correctAnswer: {
-    text: '',
+    text: 'no-select',
     error: null,
   },
 };
 
-export default function ModalCreateNewQuestion({
-  isOpen,
-  setIsOpen,
-  setIsSuccessAdding,
-}: {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  setIsSuccessAdding: (isSuccessAdding: boolean) => void;
-}) {
-  const [formData, setFormData] = useState<Question>(initialState);
+export default function FormCreateNewQuestion({ questions }: { questions: Question[] }) {
+  const [formData, setFormData] = useState<QuestionForm>(initialState);
+  const [isShowAlertMessage, setIsShowAlertMessage] = useState<boolean>(false);
+  const [alertMessageType, setAlertMessageType] = useState<'success' | 'error' | null>(null);
+  const [alertMessageText, setAlertMessageText] = useState<string>('');
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
+
+    console.log(value);
+    
     let error: string | null = null;
 
-    if (value.trim() === '') {
+    if (value.trim() === '' || value === 'no-select') {
       error = 'Поле не може бути пустим';
     }
 
@@ -102,7 +100,7 @@ export default function ModalCreateNewQuestion({
       secondAnswer.text.trim() === '' ||
       thirdAnswer.text.trim() === '' ||
       fourthAnswer.text.trim() === '' ||
-      correctAnswer.text.trim() === ''
+      correctAnswer.text.trim() === 'no-select'
     ) {
       setFormData((prevState) => ({
         ...prevState,
@@ -130,10 +128,18 @@ export default function ModalCreateNewQuestion({
           ...prevState.correctAnswer,
           error:
             correctAnswer.text.trim() === ''
-              ? 'Не выбраний номер правильної відповіді'
+              ? 'Не вибраний номер правильної відповіді'
               : correctAnswer.error,
         },
       }));
+      return;
+    }
+
+    const isCreatedQuestion = questions.find((el) => el.text === formData.question.text);
+    if (isCreatedQuestion) {
+      setIsShowAlertMessage(true);
+      setAlertMessageType('error');
+      setAlertMessageText('Таке питання вже існує!');
       return;
     }
 
@@ -143,38 +149,43 @@ export default function ModalCreateNewQuestion({
       thirdAnswer.text,
       fourthAnswer.text,
     ];
+    const questionId = String(Date.now());
 
-    try {
-      await setDoc(doc(db, 'questions', String(Date.now())), {
-        text: question.text,
-        answers: answersArr,
-        correctAnswer: answersArr[Number(correctAnswer.text) - 1],
-      });
-    } catch (error) {}
-    setIsOpen(false);
-    setIsSuccessAdding(true);
+    await setDoc(doc(db, 'question', questionId), {
+      id: questionId,
+      text: question.text,
+      answers: answersArr,
+      correctAnswer: answersArr[Number(correctAnswer.text) - 1],
+    });
+
+    const questionDocSnap = (await getDoc(doc(db, 'questions', questionId)));
+    const questionData = questionDocSnap.data();
+
+    if (questionData) {
+      setAlertMessageType('success');
+      setAlertMessageText('Питання успішно створене');
+      setFormData(initialState);
+    } else {
+      setAlertMessageType('error');
+      setAlertMessageText('Помилка додавання у базу даних');
+    }
+    setIsShowAlertMessage(true);
   };
 
   return (
-    <Modal
-      open={isOpen}
-      onClose={() => setIsOpen(false)}
-      showCloseIcon={false}
-      center
-      styles={{
-        modal: {
-          padding: 0,
-        },
-      }}
-      blockScroll={false}
-    >
-      <form
-        onSubmit={handleSubmit}
-        noValidate
-        className='w-[100%] lg:w-[600px] px-[20px] py-[30px] lg:px-[50px] lg:py-[30px]'
-      >
+    <>
+      {isShowAlertMessage && alertMessageType !== null && (
+        <CustomAlert
+          typeMessage={alertMessageType}
+          duration={3000}
+          textMessage={alertMessageText}
+          isShowMessage={isShowAlertMessage}
+          setIsShowMessage={setIsShowAlertMessage}
+        />
+      )}
+      <form id='form' onSubmit={handleSubmit} noValidate className='w-full'>
         <div>
-          <h2 className='text-sm lg:text-base mb-[10px]'>Текст питання:</h2>
+          <h2 className='mb-[10px]'>Текст питання:</h2>
           <CustomInput
             name='question'
             placeholder='Текст питання'
@@ -186,7 +197,7 @@ export default function ModalCreateNewQuestion({
           />
         </div>
         <div className='mt-[30px]'>
-          <h2 className='text-sm lg:text-base mb-[10px]'>Текст для 4-х відповідей:</h2>
+          <h2 className='mb-[10px]'>Текст для 4-х відповідей:</h2>
           <div className='flex gap-x-[10px] mb-[10px] items-center'>
             <span>1.</span>
             <CustomInput
@@ -237,7 +248,7 @@ export default function ModalCreateNewQuestion({
           </div>
         </div>
         <div className='mt-[30px]'>
-          <h2 className='text-sm lg:text-base mb-[10px]'>Номер правильної відповіді:</h2>
+          <h2 className='mb-[10px]'>Номер правильної відповіді:</h2>
           <div className='flex gap-x-[10px] items-center'>
             <select
               name='correctAnswer'
@@ -247,7 +258,7 @@ export default function ModalCreateNewQuestion({
               }`}
               defaultValue='no-select'
             >
-              <option value='no-select'>Не выбран</option>
+              <option value='no-select'>Не вибрано</option>
               <option value='1'>1</option>
               <option value='2'>2</option>
               <option value='3'>3</option>
@@ -258,21 +269,15 @@ export default function ModalCreateNewQuestion({
             </div>
           </div>
         </div>
-        <div className='flex justify-end gap-x-[10px]'>
+        <div className='flex justify-end'>
           <button
             type='submit'
             className='bg-emerald-400 hover:bg-emerald-500 py-[10px] px-[20px] rounded-full font-semibold text-sm duration-200 mt-[30px]'
           >
             Створити
           </button>
-          <button
-            onClick={() => setIsOpen(false)}
-            className='bg-red-500 hover:bg-red-600 py-[10px] px-[20px] rounded-full font-semibold text-sm duration-200 mt-[30px]'
-          >
-            Відміна
-          </button>
         </div>
       </form>
-    </Modal>
+    </>
   );
 }

@@ -47,16 +47,16 @@ export default function Home() {
   };
 
   return (
-    <main className='max-w-[90%] lg:max-w-[700px] max-h-[92vh] mx-auto my-[50px]'>
+    <>
       <CustomInput
             name='search'
             placeholder='Я шукаю...'
-            containerStyles='mb-[30px] border-2 border-neutral-500 py-[10px] lg:py-[10px] px-[20px] lg:px-[20px] rounded-full text-sm'
+            containerStyles='mb-[30px] border-2 border-neutral-500 py-[10px] px-[20px] rounded-full text-sm'
             value={search}
             onChangeInput={handleChange}
             inputType={'input'}
           />
       {showQuestions}
-    </main>
+    </>
   );
 }
