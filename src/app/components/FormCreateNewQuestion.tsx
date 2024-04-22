@@ -151,7 +151,7 @@ export default function FormCreateNewQuestion({ questions }: { questions: Questi
     ];
     const questionId = String(Date.now());
 
-    await setDoc(doc(db, 'question', questionId), {
+    await setDoc(doc(db, 'questions', questionId), {
       id: questionId,
       text: question.text,
       answers: answersArr,
