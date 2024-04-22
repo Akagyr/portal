@@ -202,7 +202,7 @@ export default function FormCreateNewQuestion({ questions }: { questions: Questi
             <span>1.</span>
             <CustomInput
               name='firstAnswer'
-              placeholder='Текст питання'
+              placeholder='Текст першої відповіді'
               value={formData.firstAnswer.text}
               onChangeInput={handleChange}
               required={true}
@@ -214,7 +214,7 @@ export default function FormCreateNewQuestion({ questions }: { questions: Questi
             <span>2.</span>
             <CustomInput
               name='secondAnswer'
-              placeholder='Текст питання'
+              placeholder='Текст другої відповіді'
               value={formData.secondAnswer.text}
               onChangeInput={handleChange}
               required={true}
@@ -226,7 +226,7 @@ export default function FormCreateNewQuestion({ questions }: { questions: Questi
             <span>3.</span>
             <CustomInput
               name='thirdAnswer'
-              placeholder='Текст питання'
+              placeholder='Текст третьої відповіді'
               value={formData.thirdAnswer.text}
               onChangeInput={handleChange}
               required={true}
@@ -238,7 +238,7 @@ export default function FormCreateNewQuestion({ questions }: { questions: Questi
             <span>4.</span>
             <CustomInput
               name='fourthAnswer'
-              placeholder='Текст питання'
+              placeholder='Текст четвертої відповіді'
               value={formData.fourthAnswer.text}
               onChangeInput={handleChange}
               required={true}
