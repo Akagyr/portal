@@ -24,7 +24,7 @@ export default function Home() {
   }, []);
 
   const showQuestions = filteredQuestions.map((question, idx) => (
-    <div key={idx} className='mb-[50px]'>
+    <div key={idx} className='mb-[50px] last:mb-0'>
       <h2>
         {idx + 1}. {question.text}:
       </h2>
