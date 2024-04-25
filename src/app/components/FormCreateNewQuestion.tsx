@@ -66,6 +66,7 @@ export default function FormCreateNewQuestion({ questions }: { questions: Questi
   const [isShowAlertMessage, setIsShowAlertMessage] = useState<boolean>(false);
   const [alertMessageType, setAlertMessageType] = useState<'success' | 'error' | null>(null);
   const [alertMessageText, setAlertMessageText] = useState<string>('');
+  const [questionsNum, setQuestionsNum] = useState<number>(questions.length + 1);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -165,6 +166,7 @@ export default function FormCreateNewQuestion({ questions }: { questions: Questi
       setAlertMessageType('success');
       setAlertMessageText('Питання успішно створене');
       setFormData(initialState);
+      setQuestionsNum(questionsNum + 1);
     } else {
       setAlertMessageType('error');
       setAlertMessageText('Помилка додавання у базу даних');
@@ -186,7 +188,9 @@ export default function FormCreateNewQuestion({ questions }: { questions: Questi
       <form id='form' onSubmit={handleSubmit} noValidate className='w-full'>
         <div>
           <h2 className='mb-[10px]'>Текст питання:</h2>
-          <CustomInput
+          <div className='flex gap-x-[10px] mb-[10px] items-center'>
+            <span>{questionsNum}.</span>
+            <CustomInput
             name='question'
             placeholder='Текст питання'
             value={formData.question.text}
@@ -195,6 +199,7 @@ export default function FormCreateNewQuestion({ questions }: { questions: Questi
             inputType={'input'}
             error={formData.question.error}
           />
+          </div>
         </div>
         <div className='mt-[30px]'>
           <h2 className='mb-[10px]'>Текст для 4-х відповідей:</h2>
