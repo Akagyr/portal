@@ -11,7 +11,7 @@ export default function SearchedQuestions({ questions }: { questions: Question[]
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setSearchedQuestions(
-        searchedQuestions.length > 0
+        searchedQuestions.length > 0 && value.length > 1
         ? questions.filter((el) => el.text.toLowerCase().includes(value.toLowerCase()))
         : questions
     );
