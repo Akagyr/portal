@@ -22,7 +22,7 @@ export default function SearchedQuestions({ questions }: { questions: Question[]
       <CustomInput
         name='search'
         placeholder='Я шукаю...'
-        containerStyles='mb-[30px] border-2 border-neutral-500 py-[10px] px-[20px] rounded-full text-sm'
+        containerStyles='mb-[30px] lg:mb-[40px] border-2 border-neutral-500 py-[10px] px-[20px] rounded-full text-sm'
         onChangeInput={handleChange}
         inputType={'input'}
       />
