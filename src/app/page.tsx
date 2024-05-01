@@ -12,9 +12,5 @@ export default async function Home() {
       } as Question)
   );
 
-  return (
-    <>
-      <SearchedQuestions questions={questions} />
-    </>
-  );
+  return <SearchedQuestions questions={questions} />;
 }

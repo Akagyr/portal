@@ -3,7 +3,7 @@ import { Question } from '../lib/types';
 
 export default function QuestionsList({ questions }: { questions: Question[] }) {
   const showQuestions = questions.map((question, idx) => (
-    <div
+    <article
       key={idx}
       className='mb-[40px] last:mb-0 rounded-2xl shadow-[0_11px_9px_6px_rgba(0,0,0,0.3)]'
     >
@@ -22,7 +22,7 @@ export default function QuestionsList({ questions }: { questions: Question[] }) 
           </p>
         ))}
       </div>
-    </div>
+    </article>
   ));
 
   return <>{showQuestions}</>;

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, ChangeEvent } from 'react';
-import CustomInput from './CustomInput';
+import CustomInput from './custom/CustomInput';
 import { Question } from '../lib/types';
 import QuestionsList from './QuestionsList';
 
@@ -23,8 +23,7 @@ export default function SearchedQuestions({ questions }: { questions: Question[]
         name='search'
         placeholder='Я шукаю...'
         containerStyles='mb-[30px] lg:mb-[40px] border-2 border-neutral-500 py-[10px] px-[20px] rounded-full text-sm'
-        onChangeInput={handleChange}
-        inputType={'input'}
+        onChange={handleChange}
       />
       <QuestionsList questions={searchedQuestions} />
     </>

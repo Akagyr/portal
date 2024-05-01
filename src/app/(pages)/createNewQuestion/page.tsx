@@ -11,10 +11,6 @@ export default async function CreateNewQuestionPage() {
         ...doc.data(),
       } as Question)
   );
-  
-  return (
-    <>
-      <FormCreateNewQuestion questions={questions} />
-    </>
-  );
+
+  return <FormCreateNewQuestion questions={questions} />;
 }

@@ -1,11 +1,11 @@
 'use client';
 
 import { ChangeEvent, useState } from 'react';
-import CustomInput from './CustomInput';
+import CustomInput from './custom/CustomInput';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { Question } from '../lib/types';
-import CustomAlert from './CustomAlert';
+import CustomAlert from './custom/CustomAlert';
 
 type QuestionForm = {
   question: {
@@ -73,8 +73,6 @@ export default function FormCreateNewQuestion({ questions }: { questions: Questi
   ) => {
     const { name, value } = e.target;
 
-    console.log(value);
-    
     let error: string | null = null;
 
     if (value.trim() === '' || value === 'no-select') {
@@ -159,7 +157,7 @@ export default function FormCreateNewQuestion({ questions }: { questions: Questi
       correctAnswer: answersArr[Number(correctAnswer.text) - 1],
     });
 
-    const questionDocSnap = (await getDoc(doc(db, 'questions', questionId)));
+    const questionDocSnap = await getDoc(doc(db, 'questions', questionId));
     const questionData = questionDocSnap.data();
 
     if (questionData) {
@@ -189,65 +187,65 @@ export default function FormCreateNewQuestion({ questions }: { questions: Questi
         <div>
           <h2 className='mb-[10px]'>Текст питання:</h2>
           <div className='flex gap-x-[10px] mb-[10px] items-center'>
-            <span>{questionsNum}.</span>
+            <label htmlFor='question'>{questionsNum}.</label>
             <CustomInput
-            name='question'
-            placeholder='Текст питання'
-            value={formData.question.text}
-            onChangeInput={handleChange}
-            required={true}
-            inputType={'input'}
-            error={formData.question.error}
-          />
+              id='question'
+              name='question'
+              placeholder='Текст питання'
+              value={formData.question.text}
+              onChange={handleChange}
+              required={true}
+              error={formData.question.error}
+            />
           </div>
         </div>
         <div className='mt-[30px]'>
           <h2 className='mb-[10px]'>Текст для 4-х відповідей:</h2>
           <div className='flex gap-x-[10px] mb-[10px] items-center'>
-            <span>1.</span>
+            <label htmlFor='firstAnswer'>1.</label>
             <CustomInput
+              id='firstAnswer'
               name='firstAnswer'
               placeholder='Текст першої відповіді'
               value={formData.firstAnswer.text}
-              onChangeInput={handleChange}
+              onChange={handleChange}
               required={true}
-              inputType={'input'}
               error={formData.firstAnswer.error}
             />
           </div>
           <div className='flex gap-x-[10px] mb-[10px] items-center'>
-            <span>2.</span>
+            <label htmlFor='secondAnswer'>2.</label>
             <CustomInput
+              id='secondAnswer'
               name='secondAnswer'
               placeholder='Текст другої відповіді'
               value={formData.secondAnswer.text}
-              onChangeInput={handleChange}
+              onChange={handleChange}
               required={true}
-              inputType={'input'}
               error={formData.secondAnswer.error}
             />
           </div>
           <div className='flex gap-x-[10px] mb-[10px] items-center'>
-            <span>3.</span>
+            <label htmlFor='thirdAnswer'>3.</label>
             <CustomInput
+              id='thirdAnswer'
               name='thirdAnswer'
               placeholder='Текст третьої відповіді'
               value={formData.thirdAnswer.text}
-              onChangeInput={handleChange}
+              onChange={handleChange}
               required={true}
-              inputType={'input'}
               error={formData.thirdAnswer.error}
             />
           </div>
           <div className='flex gap-x-[10px] items-center'>
-            <span>4.</span>
+            <label htmlFor='fourthAnswer'>4.</label>
             <CustomInput
+              id='fourthAnswer'
               name='fourthAnswer'
               placeholder='Текст четвертої відповіді'
               value={formData.fourthAnswer.text}
-              onChangeInput={handleChange}
+              onChange={handleChange}
               required={true}
-              inputType={'input'}
               error={formData.fourthAnswer.error}
             />
           </div>
