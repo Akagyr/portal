@@ -9,15 +9,15 @@ export default function Header() {
       <div className='flex gap-[10px] items-center'>
         <Link
           href='quiz'
-          className='text-white hover:bg-emerald-600 py-[10px] px-[20px] rounded-full text-sm duration-200'
+          className='text-white lg:hover:bg-emerald-600 lg:py-[10px] lg:px-[20px] rounded-full text-xs lg:text-sm duration-200 max-w-[80px] lg:max-w-full text-center lg:text-left'
         >
           Пройти тестування
         </Link>
         <Link
           href='createNewQuestion'
-          className='text-white hover:bg-emerald-600 py-[10px] px-[20px] rounded-full text-sm duration-200'
+          className='text-white lg:hover:bg-emerald-600 lg:py-[10px] lg:px-[20px] rounded-full text-xs lg:text-sm duration-200 max-w-[80px] lg:max-w-full text-center lg:text-left'
         >
-          + Додати питання
+          Додати питання
         </Link>
       </div>
     </header>

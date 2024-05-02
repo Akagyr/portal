@@ -26,7 +26,7 @@ export default function Quiz({ questions }: { questions: Question[] }) {
 
   return (
     <>
-      <div className='flex gap-[20px] mb-[20px] justify-center text-2xl'>
+      <div className='flex gap-[10px] lg:gap-[20px] mb-[20px] justify-center text-xl lg:text-2xl'>
         {correctAnswers?.map((el, idx) =>
           el ? (
             <span key={idx} className='text-green-600'>
@@ -55,7 +55,7 @@ export default function Quiz({ questions }: { questions: Question[] }) {
             <div className='p-[20px] flex flex-col gap-[10px]'>
               {currentQuestion.answers.map((answer, idx) => (
                 <button
-                  className='text-left text-sm hover:bg-emerald-300 p-[10px] rounded-lg duration-200'
+                  className='text-left text-sm lg:hover:bg-emerald-300 p-[10px] rounded-lg duration-200'
                   key={idx}
                   onClick={() => handleClick(answer)}
                 >

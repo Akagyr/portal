@@ -275,7 +275,7 @@ export default function FormCreateNewQuestion({ questions }: { questions: Questi
         <div className='flex justify-end'>
           <button
             type='submit'
-            className='bg-emerald-400 hover:bg-emerald-500 py-[10px] px-[20px] rounded-full font-semibold text-sm duration-200 mt-[30px]'
+            className='bg-emerald-400 lg:hover:bg-emerald-500 py-[10px] px-[20px] rounded-full font-semibold text-sm duration-200 mt-[30px]'
           >
             Створити
           </button>
