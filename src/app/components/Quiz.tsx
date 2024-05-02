@@ -14,8 +14,9 @@ export default function Quiz({ questions }: { questions: Question[] }) {
     const isTrue = answer === currentQuestion.correctAnswer;
 
     if (newQuestionNum > 9) {
-      setCorrectAnswers([...correctAnswers, isTrue]);
-      setCountCorrectAnswers(correctAnswers.filter((el) => el === true).length);
+      const newCorrectAnswers = [...correctAnswers, isTrue];
+      setCorrectAnswers([...newCorrectAnswers]);
+      setCountCorrectAnswers(newCorrectAnswers.filter((el) => el === true).length);
     } else {
       setCorrectAnswers([...correctAnswers, isTrue]);
       setQuestionNum(newQuestionNum);
