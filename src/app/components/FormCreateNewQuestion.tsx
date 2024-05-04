@@ -157,18 +157,11 @@ export default function FormCreateNewQuestion({ questions }: { questions: Questi
       correctAnswer: answersArr[Number(correctAnswer.text) - 1],
     });
 
-    const questionDocSnap = await getDoc(doc(db, 'questions', questionId));
-    const questionData = questionDocSnap.data();
+    setAlertMessageType('success');
+    setAlertMessageText('Питання успішно створене');
+    setFormData(initialState);
+    setQuestionsNum(questionsNum + 1);
 
-    if (questionData) {
-      setAlertMessageType('success');
-      setAlertMessageText('Питання успішно створене');
-      setFormData(initialState);
-      setQuestionsNum(questionsNum + 1);
-    } else {
-      setAlertMessageType('error');
-      setAlertMessageText('Помилка додавання у базу даних');
-    }
     setIsShowAlertMessage(true);
   };
 
