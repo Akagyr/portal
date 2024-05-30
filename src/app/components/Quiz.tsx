@@ -1,13 +1,28 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Question } from '../lib/types';
 
 export default function Quiz({ questions }: { questions: Question[] }) {
+  const [localQuestions, setLocalQuestions] = useState<Question[]>([]);
   const [correctAnswers, setCorrectAnswers] = useState<boolean[]>([]);
   const [questionNum, setQuestionNum] = useState<number>(0);
-  const [currentQuestion, setCurrentQusetion] = useState<Question>(questions[questionNum]);
+  const [currentQuestion, setCurrentQuestion] = useState<Question>(questions[questionNum]);
   const [countCorrectAnswers, setCountCorrectAnswers] = useState<number | null>(null);
+
+  useEffect(() => {
+    function shuffleArray(array: Question[]) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    const shuffledQuestions = shuffleArray(questions);
+    const selectedQuestions = shuffledQuestions.slice(0, 10);
+    setLocalQuestions(selectedQuestions);
+  }, []);
 
   const handleClick = (answer: string) => {
     const newQuestionNum: number = questionNum + 1;
@@ -20,7 +35,7 @@ export default function Quiz({ questions }: { questions: Question[] }) {
     } else {
       setCorrectAnswers([...correctAnswers, isTrue]);
       setQuestionNum(newQuestionNum);
-      setCurrentQusetion(questions[newQuestionNum]);
+      setCurrentQuestion(localQuestions[newQuestionNum]);
     }
   };
 
@@ -43,9 +58,9 @@ export default function Quiz({ questions }: { questions: Question[] }) {
         {countCorrectAnswers ? (
           <div className='flex flex-col gap-[20px] p-[20px]'>
             <p>
-              Ваш результат: {countCorrectAnswers} з {questions.length}
+              Ваш результат: {countCorrectAnswers} з {localQuestions.length}
             </p>
-            <p>Ваша оцінка: {Math.ceil(countCorrectAnswers / (questions.length / 5))}</p>
+            <p>Ваша оцінка: {Math.ceil(countCorrectAnswers / (localQuestions.length / 5))}</p>
           </div>
         ) : (
           <>
