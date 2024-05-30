@@ -3,6 +3,8 @@ import { getDocs, collection } from 'firebase/firestore';
 import { db } from '@/app/lib/firebase';
 import Quiz from '@/app/components/Quiz';
 
+export const revalidate = 0;
+
 export default async function QuizPage() {
   const querySnapshot = await getDocs(collection(db, 'questions'));
   const questions = querySnapshot.docs.map(
