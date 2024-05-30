@@ -8,7 +8,7 @@ export default function Header() {
       </Link>
       <Link
         href='quiz'
-        className='text-white lg:hover:bg-emerald-600 lg:py-[10px] lg:px-[20px] rounded-full text-xs lg:text-sm duration-200 max-w-[80px] lg:max-w-full text-center lg:text-left'
+        className='text-white px-[10px] py-[6px] lg:py-[8px] lg:px-[20px] rounded-full text-xs lg:text-sm duration-200 text-center lg:text-left border-2 border-white lg:hover:border-emerald-600 lg:hover:bg-emerald-600'
       >
         Пройти тестування
       </Link>
