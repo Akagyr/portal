@@ -1,17 +1,34 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Question } from '../lib/types';
 
 export default function Quiz({ questions }: { questions: Question[] }) {
+  const [currentQuestions, setCurrentQuestions] = useState<Question[]>([]);
   const [correctAnswers, setCorrectAnswers] = useState<boolean[]>([]);
   const [questionNum, setQuestionNum] = useState<number>(0);
-  const [currentQuestion, setCurrentQusetion] = useState<Question>(questions[questionNum]);
+  const [currentQuestion, setCurrentQusetion] = useState<Question | null>(null);
   const [countCorrectAnswers, setCountCorrectAnswers] = useState<number | null>(null);
+
+  useEffect(() => {
+    function shuffleArray(array: Question[]) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    const shuffledQuestions = shuffleArray(questions);
+    const selectedQuestions = shuffledQuestions.slice(0, 10);
+
+    setCurrentQuestions(selectedQuestions);
+    setCurrentQusetion(selectedQuestions[questionNum]);
+  }, []);
 
   const handleClick = (answer: string) => {
     const newQuestionNum: number = questionNum + 1;
-    const isTrue = answer === currentQuestion.correctAnswer;
+    const isTrue = answer === currentQuestion?.correctAnswer;
 
     if (newQuestionNum > 9) {
       const newCorrectAnswers = [...correctAnswers, isTrue];
@@ -43,17 +60,17 @@ export default function Quiz({ questions }: { questions: Question[] }) {
         {countCorrectAnswers ? (
           <div className='flex flex-col gap-[20px] p-[20px]'>
             <p>
-              Ваш результат: {countCorrectAnswers} з {questions.length}
+              Ваш результат: {countCorrectAnswers} з {currentQuestions.length}
             </p>
-            <p>Ваша оцінка: {Math.ceil(countCorrectAnswers / (questions.length / 5))}</p>
+            <p>Ваша оцінка: {Math.ceil(countCorrectAnswers / (currentQuestions.length / 5))}</p>
           </div>
         ) : (
           <>
             <h2 className='px-[20px] py-[15px] bg-yellow-300 rounded-t-2xl font-semibold text-gray-800'>
-              {questionNum + 1}. {currentQuestion.text}:
+              {questionNum + 1}. {currentQuestion?.text}:
             </h2>
             <div className='p-[20px] flex flex-col gap-[10px]'>
-              {currentQuestion.answers.map((answer, idx) => (
+              {currentQuestion?.answers.map((answer, idx) => (
                 <button
                   className='text-left text-sm lg:hover:bg-emerald-300 p-[10px] rounded-lg duration-200'
                   key={idx}
