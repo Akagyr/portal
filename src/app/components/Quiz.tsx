@@ -5,10 +5,12 @@ import { Question } from '../lib/types';
 
 export default function Quiz({ questions }: { questions: Question[] }) {
   const [currentQuestions, setCurrentQuestions] = useState<Question[]>([]);
-  const [correctAnswers, setCorrectAnswers] = useState<boolean[]>([]);
+  const [isCorrectAnswers, setIsCorrectAnswers] = useState<boolean[]>([]);
   const [questionNum, setQuestionNum] = useState<number>(0);
   const [currentQuestion, setCurrentQusetion] = useState<Question | null>(null);
   const [countCorrectAnswers, setCountCorrectAnswers] = useState<number | null>(null);
+  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const [isShowCorrectAnswer, setIsShowCorrectAnswer] = useState<boolean>(false);
 
   useEffect(() => {
     function shuffleArray(array: Question[]) {
@@ -29,22 +31,33 @@ export default function Quiz({ questions }: { questions: Question[] }) {
   const handleClick = (answer: string) => {
     const newQuestionNum: number = questionNum + 1;
     const isTrue = answer === currentQuestion?.correctAnswer;
+    setSelectedAnswer(answer);
+    setIsShowCorrectAnswer(true);
 
-    if (newQuestionNum > 9) {
-      const newCorrectAnswers = [...correctAnswers, isTrue];
-      setCorrectAnswers([...newCorrectAnswers]);
-      setCountCorrectAnswers(newCorrectAnswers.filter((el) => el === true).length);
-    } else {
-      setCorrectAnswers([...correctAnswers, isTrue]);
-      setQuestionNum(newQuestionNum);
-      setCurrentQusetion(questions[newQuestionNum]);
-    }
+    const timeout = setTimeout(() => {
+      if (newQuestionNum > 9) {
+        const newCorrectAnswers = [...isCorrectAnswers, isTrue];
+        setIsCorrectAnswers([...newCorrectAnswers]);
+        setCountCorrectAnswers(newCorrectAnswers.filter((el) => el === true).length);
+      } else {
+        setIsCorrectAnswers([...isCorrectAnswers, isTrue]);
+        setQuestionNum(newQuestionNum);
+        setCurrentQusetion(questions[newQuestionNum]);
+      }
+
+      setSelectedAnswer(null);
+      setIsShowCorrectAnswer(false);
+    }, 1500);
+
+    return () => {
+      clearTimeout(timeout);
+    };
   };
 
   return (
     <>
       <div className='flex gap-[10px] lg:gap-[20px] mb-[20px] justify-center text-xl lg:text-2xl'>
-        {correctAnswers?.map((el, idx) =>
+        {isCorrectAnswers?.map((el, idx) =>
           el ? (
             <span key={idx} className='text-green-600'>
               ✔
@@ -72,7 +85,13 @@ export default function Quiz({ questions }: { questions: Question[] }) {
             <div className='p-[20px] flex flex-col gap-[10px]'>
               {currentQuestion?.answers.map((answer, idx) => (
                 <button
-                  className='text-left text-sm lg:hover:bg-emerald-300 p-[10px] rounded-lg duration-200'
+                  className={`${
+                    isShowCorrectAnswer && currentQuestion.correctAnswer === answer
+                      ? 'bg-emerald-300'
+                      : selectedAnswer === answer &&
+                        selectedAnswer !== currentQuestion.correctAnswer &&
+                        'bg-red-400'
+                  } text-left text-sm p-[10px] pl-[15px] duration-200 rounded-lg border-[1px]`}
                   key={idx}
                   onClick={() => handleClick(answer)}
                 >
