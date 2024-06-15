@@ -12,5 +12,5 @@ export default async function QuizPage() {
       } as Question)
   );
 
-  return <Quiz questions={questions} />;
+  return <Quiz questions={questions} countQuestions={2} />;
 }

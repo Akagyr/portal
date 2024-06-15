@@ -2,8 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import { Question } from '../lib/types';
+import Link from 'next/link';
 
-export default function Quiz({ questions }: { questions: Question[] }) {
+export default function Quiz({
+  questions,
+  countQuestions,
+}: {
+  questions: Question[];
+  countQuestions: number;
+}) {
   const [currentQuestions, setCurrentQuestions] = useState<Question[]>([]);
   const [isCorrectAnswers, setIsCorrectAnswers] = useState<boolean[]>([]);
   const [questionNum, setQuestionNum] = useState<number>(0);
@@ -22,7 +29,7 @@ export default function Quiz({ questions }: { questions: Question[] }) {
     }
 
     const shuffledQuestions = shuffleArray(questions);
-    const selectedQuestions = shuffledQuestions.slice(0, 10);
+    const selectedQuestions = shuffledQuestions.slice(0, countQuestions);
 
     setCurrentQuestions(selectedQuestions);
     setCurrentQusetion(selectedQuestions[questionNum]);
@@ -35,10 +42,11 @@ export default function Quiz({ questions }: { questions: Question[] }) {
     setIsShowCorrectAnswer(true);
 
     const timeout = setTimeout(() => {
-      if (newQuestionNum > 9) {
+      if (newQuestionNum > countQuestions - 1) {
         const newCorrectAnswers = [...isCorrectAnswers, isTrue];
         setIsCorrectAnswers([...newCorrectAnswers]);
-        setCountCorrectAnswers(newCorrectAnswers.filter((el) => el === true).length);
+        const localCountCorrectAnswers = newCorrectAnswers.filter((el) => el === true).length;
+        setCountCorrectAnswers(localCountCorrectAnswers > 0 ? localCountCorrectAnswers : 0);
       } else {
         setIsCorrectAnswers([...isCorrectAnswers, isTrue]);
         setQuestionNum(newQuestionNum);
@@ -70,12 +78,18 @@ export default function Quiz({ questions }: { questions: Question[] }) {
         )}
       </div>
       <div className='mb-[40px] last:mb-0 rounded-2xl shadow-[0_11px_9px_6px_rgba(0,0,0,0.3)]'>
-        {countCorrectAnswers ? (
+        {countCorrectAnswers !== null ? (
           <div className='flex flex-col gap-[20px] p-[20px]'>
             <p>
-              Ваш результат: {countCorrectAnswers} з {currentQuestions.length}
+              Правильних відповідей: {countCorrectAnswers} з {currentQuestions.length}
             </p>
-            <p>Ваша оцінка: {Math.ceil(countCorrectAnswers / (currentQuestions.length / 5))}</p>
+            <p>Оцінка: {Math.ceil(countCorrectAnswers / (currentQuestions.length / 5))}</p>
+            <button
+              className='bg-yellow-300 p-[10px] rounded-lg'
+              onClick={() => window.location.reload()}
+            >
+              Пройти ще раз
+            </button>
           </div>
         ) : (
           <>
