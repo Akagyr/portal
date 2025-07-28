@@ -1,6 +1,0 @@
-export type Question = {
-  id: string;
-  text: string;
-  answers: string[];
-  correctAnswer: string;
-};

@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import Header from './components/Header';
 import Head from 'next/head';
+import { BreadcrumbsProvider } from './context/breadcrumbsContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,8 +22,9 @@ export default function RootLayout({
         <link rel='shortcut icon' href='/favicon.png' />
       </Head>
       <body className={inter.className}>
-        <Header />
-        <main className='max-w-[90%] lg:max-w-[700px] mx-auto py-[50px]'>{children}</main>
+        <BreadcrumbsProvider>
+          <main className='px-[20px] lg:px-0 lg:max-w-[700px] mx-auto py-[40px] lg:py-[50px]'>{children}</main>
+        </BreadcrumbsProvider>
       </body>
     </html>
   );

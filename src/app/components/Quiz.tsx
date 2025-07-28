@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Question } from '../lib/types';
-import Link from 'next/link';
+import { Question } from '../types';
+import FalseIcon from './icons/FalseIcon';
+import TrueIcon from './icons/TrueIcon';
+import ResultQuiz from './quiz/ResultQuiz';
 
 export default function Quiz({
   questions,
@@ -28,12 +30,12 @@ export default function Quiz({
       return array;
     }
 
-    const shuffledQuestions = shuffleArray(questions);
+    const shuffledQuestions = shuffleArray([...questions]);
     const selectedQuestions = shuffledQuestions.slice(0, countQuestions);
 
     setCurrentQuestions(selectedQuestions);
-    setCurrentQusetion(selectedQuestions[questionNum]);
-  }, []);
+    setCurrentQusetion(selectedQuestions[0]);
+  }, [questions, countQuestions]);
 
   const handleClick = (answer: string) => {
     const newQuestionNum: number = questionNum + 1;
@@ -42,80 +44,118 @@ export default function Quiz({
     setIsShowCorrectAnswer(true);
 
     const timeout = setTimeout(() => {
-      if (newQuestionNum > countQuestions - 1) {
-        const newCorrectAnswers = [...isCorrectAnswers, isTrue];
-        setIsCorrectAnswers([...newCorrectAnswers]);
+      const newCorrectAnswers = [...isCorrectAnswers, isTrue];
+      setIsCorrectAnswers(newCorrectAnswers);
+
+      if (newQuestionNum >= currentQuestions.length) {
         const localCountCorrectAnswers = newCorrectAnswers.filter((el) => el === true).length;
         setCountCorrectAnswers(localCountCorrectAnswers > 0 ? localCountCorrectAnswers : 0);
       } else {
-        setIsCorrectAnswers([...isCorrectAnswers, isTrue]);
         setQuestionNum(newQuestionNum);
-        setCurrentQusetion(questions[newQuestionNum]);
+        setCurrentQusetion(currentQuestions[newQuestionNum]);
       }
 
       setSelectedAnswer(null);
       setIsShowCorrectAnswer(false);
-    }, 1500);
+    }, 2000);
 
     return () => {
       clearTimeout(timeout);
     };
   };
 
+  if (countCorrectAnswers !== null) {
+    return (
+      <ResultQuiz currentQuestions={currentQuestions} countCorrectAnswers={countCorrectAnswers} />
+    );
+  }
+
   return (
     <>
       <div className='flex gap-[10px] lg:gap-[20px] mb-[20px] justify-center text-xl lg:text-2xl'>
         {isCorrectAnswers?.map((el, idx) =>
           el ? (
-            <span key={idx} className='text-green-600'>
-              ✔
-            </span>
+            <TrueIcon key={idx} stylesClass='w-[20px] lg:w-[25px] h-[20px] lg:h-[25px]' />
           ) : (
-            <span key={idx} className='text-red-600'>
-              ✖
-            </span>
+            <FalseIcon key={idx} stylesClass='w-[20px] lg:w-[25px] h-[20px] lg:h-[25px]' />
           )
         )}
       </div>
-      <div className='mb-[40px] last:mb-0 rounded-2xl shadow-[0_11px_9px_6px_rgba(0,0,0,0.3)]'>
-        {countCorrectAnswers !== null ? (
-          <div className='flex flex-col gap-[20px] p-[20px]'>
-            <p>
-              Правильних відповідей: {countCorrectAnswers} з {currentQuestions.length}
-            </p>
-            <p>Оцінка: {Math.ceil(countCorrectAnswers / (currentQuestions.length / 5))}</p>
-            <button
-              className='bg-yellow-300 p-[10px] rounded-lg'
-              onClick={() => window.location.reload()}
-            >
-              Пройти ще раз
-            </button>
-          </div>
-        ) : (
-          <>
-            <h2 className='px-[20px] py-[15px] bg-yellow-300 rounded-t-2xl font-semibold text-gray-800'>
-              {questionNum + 1}. {currentQuestion?.text}:
-            </h2>
-            <div className='p-[20px] flex flex-col gap-[10px]'>
-              {currentQuestion?.answers.map((answer, idx) => (
-                <button
-                  className={`${
-                    isShowCorrectAnswer && currentQuestion.correctAnswer === answer
-                      ? 'bg-emerald-300'
-                      : selectedAnswer === answer &&
-                        selectedAnswer !== currentQuestion.correctAnswer &&
-                        'bg-red-400'
-                  } text-left text-sm p-[10px] pl-[15px] duration-200 rounded-lg border-[1px]`}
-                  key={idx}
-                  onClick={() => handleClick(answer)}
-                >
-                  {idx + 1}. {answer}
-                </button>
-              ))}
+      <article className='border-2 border-main-green/50 rounded-2xl overflow-hidden'>
+        <div className='bg-main-green/10 p-[20px] lg:p-[25px] border-b border-main-green/20'>
+          <div className='flex items-center gap-[15px]'>
+            <div className='w-[35px] h-[35px] bg-main-green rounded-full flex items-center justify-center shadow-md flex-shrink-0'>
+              <span className='text-white font-bold text-sm'>{questionNum + 1}</span>
             </div>
-          </>
-        )}
-      </div>
+            <h2 className='text-lg lg:text-xl font-bold'>{currentQuestion?.text}</h2>
+          </div>
+        </div>
+        <div className='p-[20px] lg:p-[25px] bg-white'>
+          <div className='space-y-[12px]'>
+            {currentQuestion?.answers.map((answer, idx) => (
+              <button
+                key={idx}
+                className={`
+                      w-full flex items-start gap-[12px] p-[15px] rounded-xl transition-all duration-300 text-left
+                      ${
+                        isShowCorrectAnswer && currentQuestion.correctAnswer === answer
+                          ? 'bg-main-green/10 border-2 border-main-green/30 shadow-sm'
+                          : selectedAnswer === answer &&
+                            selectedAnswer !== currentQuestion.correctAnswer &&
+                            isShowCorrectAnswer
+                          ? 'bg-red-100 border-2 border-red-300'
+                          : 'bg-gray-50 border-2 border-transparent lg:hover:bg-gray-100'
+                      }
+                      ${isShowCorrectAnswer ? 'cursor-not-allowed' : 'cursor-pointer'}
+                    `}
+                onClick={() => handleClick(answer)}
+                disabled={isShowCorrectAnswer}
+              >
+                <div
+                  className={`
+                        w-[24px] h-[24px] rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold
+                        ${
+                          isShowCorrectAnswer && currentQuestion.correctAnswer === answer
+                            ? 'bg-main-green text-white'
+                            : selectedAnswer === answer &&
+                              selectedAnswer !== currentQuestion.correctAnswer &&
+                              isShowCorrectAnswer
+                            ? 'bg-red-400 text-white'
+                            : 'bg-gray-300 text-gray-600'
+                        }
+                      `}
+                >
+                  {String.fromCharCode(65 + idx)}
+                </div>
+                <p
+                  className={`
+                        text-sm lg:text-base leading-relaxed
+                        ${
+                          isShowCorrectAnswer && currentQuestion.correctAnswer === answer
+                            ? 'font-semibold'
+                            : 'text-gray-700'
+                        }
+                      `}
+                >
+                  {answer}
+                </p>
+                {isShowCorrectAnswer && currentQuestion.correctAnswer === answer && (
+                  <div className='ml-auto'>
+                    <TrueIcon stylesClass='w-[15px] h-[15px]' />
+                  </div>
+                )}
+                {isShowCorrectAnswer &&
+                  selectedAnswer === answer &&
+                  selectedAnswer !== currentQuestion.correctAnswer && (
+                    <div className='ml-auto'>
+                      <FalseIcon stylesClass='w-[15px] h-[15px]' />
+                    </div>
+                  )}
+              </button>
+            ))}
+          </div>
+        </div>
+      </article>
     </>
   );
 }

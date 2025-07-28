@@ -8,6 +8,10 @@
   box-sizing: border-box;
 }
 
+body {
+  color: #1e2939;
+}
+
 body::-webkit-scrollbar {
   width: 10px;
 }
