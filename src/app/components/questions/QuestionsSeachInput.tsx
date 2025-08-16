@@ -44,7 +44,7 @@ export default function QuestionsSearchInput({
           value={value}
           onChange={onChange}
           type={type || 'text'}
-          className='w-full pl-[55px] pr-[20px] py-[12px] lg:py-[15px] border-2 rounded-2xl text-sm lg:text-base bg-white shadow-sm placeholder:text-gray-400 outline-none lg:focus:ring-0 lg:focus:border-main-green lg:focus:shadow-md transition-all duration-300'
+          className='w-full pl-[55px] pr-[20px] py-[12px] lg:py-[15px] border-2 rounded-2xl text-sm lg:text-base bg-white shadow-sm placeholder:text-gray-400 lg:focus:ring-0 lg:focus:border-main-green lg:focus:shadow-md transition-all duration-300'
           placeholder={placeholder}
           required={required}
           autoComplete="off"

@@ -1,14 +1,14 @@
 export type Category = {
   id: string;
   name: string;
-  subcategoriesId?: string;
-  testsId?: string;
+  subcategoriesId?: string[];
+  testsId?: string[];
 };
 
 export type Subcategory = {
   id: string;
   name: string;
-  testsId: string;
+  testsId: string[];
 };
 
 export type Test = {
@@ -22,9 +22,5 @@ export type Question = {
   text: string;
   answers: string[];
   correctAnswer: string;
+  testsId: string;
 };
-
-export type BreadcrumbItem = {
-  label: string;
-  href: string;
-}

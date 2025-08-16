@@ -11,7 +11,6 @@ export default function FalseIcon({ stylesClass = 'w-[25px] h-[25px]' }: { style
       <g id='SVGRepo_bgCarrier' strokeWidth='0' />
       <g id='SVGRepo_tracerCarrier' strokeLinecap='round' strokeLinejoin='round' />
       <g id='SVGRepo_iconCarrier'>
-        <title>cancel</title>
         <g id='icons' stroke='none' fill='none' fillRule='evenodd'>
           <g
             id='ui-gambling-website-lined-icnos-casinoshunter'

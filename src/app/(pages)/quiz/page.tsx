@@ -1,12 +1,12 @@
 import Quiz from '@/app/components/Quiz';
-import { getQuestionsById } from '@/app/firebase/databaseQueries';
+import { getQuestionsByTestId } from '@/app/firebase/databaseQueries';
 
 export default async function QuizPage({
   searchParams,
 }: {
-  searchParams: { questionsId: string };
+  searchParams: { testsId: string };
 }) {
-  const questions = await getQuestionsById(searchParams.questionsId);
+  const questions = await getQuestionsByTestId(searchParams.testsId);
 
   return <Quiz questions={questions} countQuestions={10} />;
 }
